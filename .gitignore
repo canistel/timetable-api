@@ -1,1 +1,7 @@
+# dependencies
+/node_modules
+
+# Env
 .env
+
+apis.txt

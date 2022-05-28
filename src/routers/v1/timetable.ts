@@ -3,8 +3,9 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import * as appenvs from "./appenvs";
+import express from "express";
 
-export {
-    appenvs
-};
+// user router
+const timeTableRouter = express.Router();
+
+// get 

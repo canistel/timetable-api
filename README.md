@@ -5,3 +5,6 @@
  https://opensource.org/licenses/MIT
 -->
 
+# Timetable API
+
+A backend for timetable App this is only developed for mini project not for production ie not optimized well.
