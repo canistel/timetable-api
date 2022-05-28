@@ -9,6 +9,7 @@ DELETE  /user
 # Time table API
 GET    /user/id/timetables
 POST   /user/id/timetables
+GET    /user/id/timetables/id
 PUT    /user/id/timetables/id
 DELETE /user/id/timetables/id
 
