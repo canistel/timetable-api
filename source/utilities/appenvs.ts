@@ -18,6 +18,10 @@ export function getDataBaseName() : string {
     return process.env.DB_NAME || "";
 }
 
+// get the db host
+export function getDataBaseHost() : string {
+    return process.env.DB_HOST || "localhost";
+}
 
 // get the app port
 export function getAppPort(): number {

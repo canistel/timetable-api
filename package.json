@@ -4,7 +4,7 @@
   "description": "Timetable management API (Mini Project)",
   "main": "app.ts",
   "scripts": {
-    "start": "node --require dotenv/config -r ts-node/register src/server.ts"
+    "start": "node --require dotenv/config -r ts-node/register source/server.ts"
   },
   "author": "canistel",
   "license": "MIT",
@@ -14,9 +14,11 @@
     "typescript": "^4.7.2"
   },
   "dependencies": {
+    "@types/joi": "^17.2.3",
     "@types/mysql": "^2.15.21",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
+    "joi": "^17.6.0",
     "mysql": "^2.18.1"
   }
 }

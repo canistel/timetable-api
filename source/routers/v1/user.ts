@@ -8,9 +8,6 @@ import express from "express";
 // user router
 const userRouter = express.Router();
 
-// get users
-userRouter.get('/users');
-
 // signup api
 userRouter.post("/signup");
 
