@@ -5,17 +5,21 @@
 
 import express from "express";
 import {
-    userSignUpValidator
+    userSignUpValidator,
+    userSignInValidator
 } from "../../validators";
+import {
+    userSignUpController
+} from "../../controllers";
 
 // user router
 const userRouter = express.Router();
 
 // signup api
-userRouter.post("/signup", userSignUpValidator);
+userRouter.post("/signup", userSignUpValidator, userSignUpController);
 
 // login api
-userRouter.post("/signin");
+userRouter.post("/signin", userSignInValidator);
 
 // delete user
 userRouter.delete('/user');

@@ -3,8 +3,6 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import { userSignUpController } from "./userController";
-
-export {
-    userSignUpController
-};
+export const TIMETABLE_TABLE = "TIMETABLE";
+export const USER_TABLE = "USER";
+export const SCHEDULE_TABLE = "SCHEDULE";

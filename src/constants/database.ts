@@ -4,20 +4,18 @@
 // https://opensource.org/licenses/MIT
 
 import { appenvs } from "../utilities";
-import mysql from "mysql";
+import mysql from "mysql2";
 
 // create connection
-const connection = mysql.createConnection({
+const connection = mysql.createPool({
     host: appenvs.getDataBaseHost(),
     user: appenvs.getDataBaseUserName(),
     password: appenvs.getDataBasePassword(),
-    database: appenvs.getDataBaseName()
+    database: appenvs.getDataBaseName(),
+    waitForConnections: true,
+    connectionLimit: 15,
+    queueLimit: 0
 });;
-
-// connect to db
-connection.connect((err) => {
-    throw err;
-});
 
 // export
 export default connection;

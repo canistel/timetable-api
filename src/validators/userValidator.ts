@@ -24,3 +24,22 @@ export async function userSignUpValidator(req: Request, res: Response, next: Nex
     // propagate to next
     next();
 }
+
+// validate the sign in request
+export async function userSignInValidator(req: Request, res: Response, next: NextFunction) {
+    // validation schema
+    const schema = Joi.object({
+        username: Joi.string().required(),
+        password: Joi.string().required()
+    });
+
+    // validate
+    try {
+        await schema.validateAsync(req.body);
+    } catch (error) {
+        res.status(400).json({ message: "Invalid Request" });
+    }
+
+    // propagate to next
+    next();
+}

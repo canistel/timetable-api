@@ -3,8 +3,12 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import { userSignUpValidator } from "./userValidator";
+import { 
+    userSignUpValidator, 
+    userSignInValidator 
+} from "./userValidator";
 
 export {
-    userSignUpValidator
+    userSignUpValidator,
+    userSignInValidator
 };

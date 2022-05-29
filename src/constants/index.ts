@@ -3,8 +3,10 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import mysqlCon from "./database";
+import * as tableNames from "./tables";
+import mysqlPool from "./database";
 
 export {
-    mysqlCon
+    tableNames,
+    mysqlPool,
 };
