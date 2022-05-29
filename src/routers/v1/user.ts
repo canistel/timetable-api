@@ -4,12 +4,15 @@
 // https://opensource.org/licenses/MIT
 
 import express from "express";
+import {
+    userSignUpValidator
+} from "../../validators";
 
 // user router
 const userRouter = express.Router();
 
 // signup api
-userRouter.post("/signup");
+userRouter.post("/signup", userSignUpValidator);
 
 // login api
 userRouter.post("/signin");

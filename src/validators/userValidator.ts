@@ -3,10 +3,24 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import Joi from "joi";
 
 // validate the sign up request
-export async function userSignUpValidator(req: Request, res: Response) {
-    
+export async function userSignUpValidator(req: Request, res: Response, next: NextFunction) {
+    // validation schema
+    const schema = Joi.object({
+        username: Joi.string().required(),
+        password: Joi.string().required()
+    });
+
+    // validate
+    try {
+        await schema.validateAsync(req.body);
+    } catch (error) {
+        res.status(400).json({ message: "Invalid Request" });
+    }
+
+    // propagate to next
+    next();
 }

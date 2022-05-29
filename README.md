@@ -9,6 +9,8 @@
 
 A backend for timetable App this is only developed for mini project not for production ie not optimized well.
 
+~~~
+
 user API
 
 POST    /signin
@@ -30,3 +32,5 @@ GET    /user/id/timetables/id/schedules
 POST   /user/id/timetables/id/schedules
 PUT    /user/id/timetables/id/schedules/id
 DELETE /user/id/timetables/id/schedules/id
+
+~~~

@@ -9,6 +9,9 @@ import express from "express";
 // create app
 const app = express();
 
+// use json middleware
+app.use(express.json());
+
 // simple
 app.get('/', async (req, res) => {
     res.send("Hello, World");
