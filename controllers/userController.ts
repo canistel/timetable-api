@@ -5,6 +5,8 @@
 
 import { mysqlPool, tableNames } from "../constants";
 import { Request, Response } from "express";
+import jsonwebtoken from "jsonwebtoken";
+import { appenvs } from "../utilities";
 import { IUser } from "../interfaces";
 import bcrypt from "bcrypt";
 
@@ -20,14 +22,14 @@ export async function userSignUpController(req: Request, res: Response) {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     // create the query
-    const query = `INSERT INTO users (username, password) VALUES (?, ?)`;
+    const query = `INSERT INTO ${tableNames.USER_TABLE} (username, password) VALUES (?, ?)`;
 
     // promise pool
     const promisePool = mysqlPool.promise();
 
     // insert into DB
     await promisePool.execute<IUser[]>(query, [ 
-        username, hashedPassword 
+        tableNames.USER_TABLE, username, hashedPassword 
     ]);
 
     // return Status
@@ -40,7 +42,7 @@ export async function userSignInController(req: Request, res: Response) {
     const { username, password } = req.body;
 
     // database query
-    const query = `SELECT * FROM users WHERE username = ?`;
+    const query = `SELECT * FROM ${tableNames.USER_TABLE} WHERE username = ?`;
 
     // promise pool
     const promisePool = mysqlPool.promise();
@@ -59,4 +61,10 @@ export async function userSignInController(req: Request, res: Response) {
 
     // if password not valid
     if(!isPasswordValid) { res.status(401).json({message: "Unauthorized"}) }
+
+    // generate token
+    const token = jsonwebtoken.sign({ username }, appenvs.getPrivateKey());
+
+    // send the token
+    res.status(200).json({ token });
 }

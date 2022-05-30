@@ -27,3 +27,8 @@ export function getDataBaseHost() : string {
 export function getAppPort(): number {
     return process.env.APP_PORT && +process.env.APP_PORT || 3000;
 }
+
+// private secret key
+export function getPrivateKey() : string {
+    return process.env.PRIVATE_KEY || "";
+}
