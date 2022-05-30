@@ -5,10 +5,12 @@
 
 import { 
     userSignUpValidator, 
-    userSignInValidator 
+    userSignInValidator,
+    userDeleteValidator
 } from "./userValidator";
 
 export {
     userSignUpValidator,
-    userSignInValidator
+    userSignInValidator,
+    userDeleteValidator
 };

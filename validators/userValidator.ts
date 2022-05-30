@@ -43,3 +43,21 @@ export async function userSignInValidator(req: Request, res: Response, next: Nex
     // propagate to next
     next();
 }
+
+// validate the delete request
+export async function userDeleteValidator(req: Request, res: Response, next: NextFunction) {
+    // validation schema
+    const schema = Joi.object({
+        password: Joi.string().required()
+    });
+
+    // validate
+    try {
+        await schema.validateAsync(req.body);
+    } catch (error) {
+        res.status(400).json({ message: "Invalid Request" });
+    }
+
+    // propagate to next
+    next();
+}

@@ -4,11 +4,13 @@
 // https://opensource.org/licenses/MIT
 
 import ITimetable from "./ITimetable";
+import IJwtpayload from "./IJwtpayload";
 import ISchedule from "./ISchedule";
 import IUser from "./IUser";
 
 export {
     ITimetable,
+    IJwtpayload,
     ISchedule,
     IUser
 };

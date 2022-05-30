@@ -3,8 +3,16 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import { userSignUpController } from "./userController";
+import { 
+    userDetailsController,
+    userSignUpController, 
+    userSignInController, 
+    userDeleteController 
+} from "./userController";
 
 export {
-    userSignUpController
+    userDetailsController,
+    userSignUpController,
+    userSignInController, 
+    userDeleteController 
 };

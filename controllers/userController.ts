@@ -4,11 +4,35 @@
 // https://opensource.org/licenses/MIT
 
 import { mysqlPool, tableNames } from "../constants";
+import { IUser, IJwtpayload } from "../interfaces";
 import { Request, Response } from "express";
 import jsonwebtoken from "jsonwebtoken";
 import { appenvs } from "../utilities";
-import { IUser } from "../interfaces";
 import bcrypt from "bcrypt";
+
+// controller for user details
+export async function userDetailsController(req: Request, res: Response) {
+    // get user id
+    const userId = req.user_id;
+
+    // check valid
+    if (!userId) { return res.status(500).json({ message: "Internal Server Error" }) }
+
+    // user query
+    const userQuery = `SELECT * FROM ${tableNames.USER_TABLE} WHERE id = ?`;
+
+    // promise pool
+    const promisePool = mysqlPool.promise();
+
+    // get user
+    const [row] = await promisePool.execute<IUser[]>(userQuery, [userId]);
+
+    // check valid
+    if (row.length == 0) { return res.status(404).json({ message: "User not found" }) }
+
+    // return user
+    return res.status(200).json({ user_id: row[0].id, username: row[0].username});
+}
 
 // controller for user sign up
 export async function userSignUpController(req: Request, res: Response) {
@@ -62,9 +86,57 @@ export async function userSignInController(req: Request, res: Response) {
     // if password not valid
     if(!isPasswordValid) { res.status(401).json({message: "Unauthorized"}) }
 
+    // jwt payload
+    const payload :IJwtpayload = { user_id: rows[0].id };
+
     // generate token
-    const token = jsonwebtoken.sign({ username }, appenvs.getPrivateKey());
+    const token = jsonwebtoken.sign(payload, appenvs.getPrivateKey());
 
     // send the token
     res.status(200).json({ token });
+}
+
+// controller for user delete
+export async function userDeleteController(req: Request, res: Response) {
+    // get the request body
+    const { password } = req.body;
+
+    // user id
+    const user_id = req.user_id;
+
+    // check user is found
+    if (!user_id) { return res.status(500).json({ message: "Internal Server Error" }) };
+
+    // database query
+    const query = `SELECT * FROM ${tableNames.USER_TABLE} WHERE id = ?`;
+
+    // promise pool
+    const promisePool = mysqlPool.promise();
+
+    // insert into DB
+    const [rows] = await promisePool.execute<IUser[]>(query, [user_id]);
+
+    // if user exits
+    if(rows.length == 0) { res.status(404).json({message: "Not Found"}) }
+
+    // get hash password
+    const hashedPassword = rows[0].password;
+
+    // compare the password
+    const isPasswordValid = await bcrypt.compare(password, hashedPassword);
+
+    // if password not valid
+    if(!isPasswordValid) { res.status(401).json({message: "Unauthorized"}) }
+
+    // delete the user
+    const deleteQuery = `DELETE FROM ${tableNames.USER_TABLE} WHERE id = ?`;
+
+    // promise pool
+    const deletePromisePool = mysqlPool.promise();
+
+    // delete from DB
+    await deletePromisePool.execute<IUser[]>(deleteQuery, [user_id]);
+
+    // return Status
+    res.status(200).json({ message: "User Deleted" });
 }

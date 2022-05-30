@@ -13,6 +13,7 @@ A backend for timetable App this is only developed for mini project not for prod
 
 user API
 
+GET     /user
 POST    /signin
 POST    /signup
 DELETE  /user

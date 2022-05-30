@@ -3,8 +3,6 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import authenticator from "./authenticator";
-
-export {
-    authenticator
-};
+export default interface IJwtpayload {
+    user_id: number;
+}
