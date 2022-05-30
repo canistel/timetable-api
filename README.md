@@ -21,17 +21,16 @@ DELETE  /user
 
 Time table API
 
-GET    /user/id/timetables
-POST   /user/id/timetables
-GET    /user/id/timetables/id
-PUT    /user/id/timetables/id
-DELETE /user/id/timetables/id
+GET    /user/timetables
+POST   /user/timetables
+PUT    /user/timetables/id
+DELETE /user/timetables/id
 
 Schedule API
 
-GET    /user/id/timetables/id/schedules
-POST   /user/id/timetables/id/schedules
-PUT    /user/id/timetables/id/schedules/id
-DELETE /user/id/timetables/id/schedules/id
+GET    /user/timetables/id/schedules
+POST   /user/timetables/id/schedules
+PUT    /user/timetables/id/schedules/id
+DELETE /user/timetables/id/schedules/id
 
 ~~~
