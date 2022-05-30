@@ -18,5 +18,5 @@ app.use('/api/v1/user', userRouter);
 
 // start app
 app.listen(appenvs.getAppPort(), () => {
-    console.log(`Running on ${appenvs.getAppPort()}`);
+    console.log(`http://localhost:${appenvs.getAppPort()}`);
 });
