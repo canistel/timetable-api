@@ -6,13 +6,19 @@
 import { 
     userDetailsController,
     userSignUpController, 
-    userSignInController, 
+    userSignInController,
+    userPatchController, 
     userDeleteController 
 } from "./userController";
+import {
+    getAllTimetablesController,
+} from "./timetableController";
 
 export {
     userDetailsController,
     userSignUpController,
     userSignInController, 
-    userDeleteController 
+    userDeleteController,
+    userPatchController,
+    getAllTimetablesController,
 };

@@ -1,7 +1,6 @@
-GET http://localhost:3000/api/v1/user
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozLCJpYXQiOjE2NTM5MjE3NjN9.B9H4_vJpsoK94sucDGWzEnFUxkfzpwbN3bzoIodAUbc
+###----------------------------------User API----------------------------------#
 
-###
+### Sign up user
 
 POST http://localhost:3000/api/v1/user/signup HTTP/1.1
 Content-Type: application/json
@@ -11,10 +10,25 @@ Content-Type: application/json
     "password": "test_password"
 }
 
-
-###
+### sign in user
 
 POST http://localhost:3000/api/v1/user/signin HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "test_user",
+    "password": "test_password"
+}
+
+### Get user Details
+
+GET http://localhost:3000/api/v1/user
+Authorization: Bearer 
+
+### patch user
+
+PATCH  http://localhost:3000/api/v1/user HTTP/1.1
+Authorization: Bearer 
 Content-Type: application/json
 
 {

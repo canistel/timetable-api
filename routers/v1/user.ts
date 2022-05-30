@@ -8,12 +8,14 @@ import express from "express";
 import {
     userSignUpValidator,
     userSignInValidator,
+    userPatchValidator,
     userDeleteValidator
 } from "../../validators";
 import {
     userDetailsController,
     userSignUpController,
     userSignInController,
+    userPatchController,
     userDeleteController
 } from "../../controllers";
 
@@ -31,6 +33,9 @@ userRouter.post("/signin", userSignInValidator, userSignInController);
 
 // user details
 userRouter.get('/', authenticator, userDetailsController);
+
+// user patch
+userRouter.patch('/', authenticator, userPatchValidator, userPatchController);
 
 // export the user router
 export default userRouter;

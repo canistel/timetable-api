@@ -13,7 +13,7 @@ import bcrypt from "bcrypt";
 // controller for user details
 export async function userDetailsController(req: Request, res: Response) {
     // get user id
-    const userId = req.user_id;
+    const userId = res.locals.user_id as number | undefined;
 
     // check valid
     if (!userId) { return res.status(500).json({ message: "Internal Server Error" }) }
@@ -94,13 +94,50 @@ export async function userSignInController(req: Request, res: Response) {
     res.status(200).json({ token });
 }
 
+// controller for user patch
+export async function userPatchController(req: Request, res: Response) {
+    // get user id
+    const user_id = res.locals.user_id as number | undefined;
+
+    // check user is found
+    if (!user_id) { return res.status(500).json({ message: "Internal Server Error" }) };
+
+    // get the user details
+    const { username, password } = req.body;
+
+    // get the user
+    const userQuery = `SELECT * FROM ${tableNames.USER_TABLE} WHERE id = ?`;
+
+    // promise pool
+    const promisePool = mysqlPool.promise();
+
+    // get user
+    const [row] = await promisePool.execute<IUser[]>(userQuery, [user_id]);
+
+    // check user is found
+    if (row.length == 0) { return res.status(404).json({ message: "User not found" }) };
+
+    // values to update
+    const updatedUsername = username || row[0].USERNAME;
+    const updatedPassword = password || row[0].PASSWORD;
+
+    // update query
+    const updateQuery = `UPDATE ${tableNames.USER_TABLE} SET username = ?, password = ? WHERE id = ?`;
+
+    // execute query
+    await promisePool.execute<IUser[]>(updateQuery, [updatedUsername, updatedPassword, user_id]);
+
+    // return status
+    res.status(200).json({ message: "User Updated" });
+}
+
 // controller for user delete
 export async function userDeleteController(req: Request, res: Response) {
     // get the request body
     const { password } = req.body;
 
     // user id
-    const user_id = req.user_id;
+    const user_id = res.locals.user_id as number | undefined;
 
     // check user is found
     if (!user_id) { return res.status(500).json({ message: "Internal Server Error" }) };

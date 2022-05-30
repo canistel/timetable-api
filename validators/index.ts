@@ -6,11 +6,13 @@
 import { 
     userSignUpValidator, 
     userSignInValidator,
+    userPatchValidator,
     userDeleteValidator
 } from "./userValidator";
 
 export {
     userSignUpValidator,
     userSignInValidator,
+    userPatchValidator,
     userDeleteValidator
 };

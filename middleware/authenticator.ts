@@ -31,7 +31,7 @@ export default function authenticator(req: Request, res: Response, next: NextFun
     // verify the token
     try {
         const decoded = jsonwebtoken.verify(token, appenvs.getSecretKey()) as IJwtpayload;
-        req.user_id = decoded.user_id;
+        res.locals.user_id = decoded.user_id;
         next();
     } catch (error) {
         res.status(401).json({ message: error });
