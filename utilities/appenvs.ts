@@ -29,6 +29,6 @@ export function getAppPort(): number {
 }
 
 // private secret key
-export function getPrivateKey() : string {
-    return process.env.PRIVATE_KEY || "";
+export function getSecretKey() : string {
+    return process.env.SECRET_KEY || "";
 }

@@ -7,10 +7,10 @@ import { RowDataPacket } from "mysql2";
 
 // interface for sql query result
 export default interface ISchedule extends RowDataPacket {
-    id: number;
-    timetable_id: number;
-    start: Date;
-    end: Date;
-    description: string;
-    finished: boolean;
+    ID: number;
+    TIMETABLE_ID: number;
+    START: Date;
+    END: Date;
+    DESCRIPTION: string;
+    FINISHED: boolean;
 }

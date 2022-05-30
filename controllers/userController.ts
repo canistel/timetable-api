@@ -31,7 +31,7 @@ export async function userDetailsController(req: Request, res: Response) {
     if (row.length == 0) { return res.status(404).json({ message: "User not found" }) }
 
     // return user
-    return res.status(200).json({ user_id: row[0].id, username: row[0].username});
+    return res.status(200).json({ user_id: row[0].ID, username: row[0].USERNAME});
 }
 
 // controller for user sign up
@@ -52,9 +52,7 @@ export async function userSignUpController(req: Request, res: Response) {
     const promisePool = mysqlPool.promise();
 
     // insert into DB
-    await promisePool.execute<IUser[]>(query, [ 
-        tableNames.USER_TABLE, username, hashedPassword 
-    ]);
+    await promisePool.execute<IUser[]>(query, [ username, hashedPassword ]);
 
     // return Status
     res.status(200).json({ message: "User Created" });
@@ -75,10 +73,10 @@ export async function userSignInController(req: Request, res: Response) {
     const [rows] = await promisePool.execute<IUser[]>(query, [username]);
 
     // if user exits
-    if(rows.length == 0) { res.status(404).json({message: "Not Found"}) }
+    if(rows.length == 0) { return res.status(404).json({message: "Not Found"}) }
 
     // get hash password
-    const hashedPassword = rows[0].password;
+    const hashedPassword = rows[0].PASSWORD;
 
     // compare the password
     const isPasswordValid = await bcrypt.compare(password, hashedPassword);
@@ -87,10 +85,10 @@ export async function userSignInController(req: Request, res: Response) {
     if(!isPasswordValid) { res.status(401).json({message: "Unauthorized"}) }
 
     // jwt payload
-    const payload :IJwtpayload = { user_id: rows[0].id };
+    const payload :IJwtpayload = { user_id: rows[0].ID };
 
     // generate token
-    const token = jsonwebtoken.sign(payload, appenvs.getPrivateKey());
+    const token = jsonwebtoken.sign(payload, appenvs.getSecretKey());
 
     // send the token
     res.status(200).json({ token });
@@ -120,7 +118,7 @@ export async function userDeleteController(req: Request, res: Response) {
     if(rows.length == 0) { res.status(404).json({message: "Not Found"}) }
 
     // get hash password
-    const hashedPassword = rows[0].password;
+    const hashedPassword = rows[0].PASSWORD;
 
     // compare the password
     const isPasswordValid = await bcrypt.compare(password, hashedPassword);

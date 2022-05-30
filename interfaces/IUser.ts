@@ -7,7 +7,7 @@ import { RowDataPacket } from "mysql2";
 
 // interface for sql query result
 export default interface IUser extends RowDataPacket {
-    id: number;
-    username: string;
-    password: string;
+    ID: number;
+    USERNAME: string;
+    PASSWORD: string;
 }
