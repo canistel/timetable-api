@@ -14,7 +14,7 @@ const app = express();
 app.use(express.json());
 
 // v1 router
-app.use('/api/v1/timetable', timeTableRouter);
+app.use('/api/v1/timetables', timeTableRouter);
 app.use('/api/v1/user', userRouter);
 
 // start app

@@ -23,9 +23,9 @@ Time table API
 
 GET    /user/timetables     # done
 POST   /user/timetables     # done
-GET    /user/timetables/id
-PATCH  /user/timetables/id
-DELETE /user/timetables/id
+GET    /user/timetables/id  # done
+PATCH  /user/timetables/id  # done
+DELETE /user/timetables/id  # done
 
 Schedule API
 

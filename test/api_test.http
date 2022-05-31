@@ -23,15 +23,56 @@ Content-Type: application/json
 ### Get user Details
 
 GET http://localhost:3000/api/v1/user
-Authorization: Bearer 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE2NTM5OTM0MzR9.FUcbrhLT3iXs62L4Ljt2a3Y5frbvGD2lN-loI2-QynM
 
 ### patch user
 
 PATCH  http://localhost:3000/api/v1/user HTTP/1.1
-Authorization: Bearer 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE2NTM5OTM0MzR9.FUcbrhLT3iXs62L4Ljt2a3Y5frbvGD2lN-loI2-QynM
 Content-Type: application/json
 
 {
     "username": "test_user",
     "password": "test_password"
 }
+
+### delete user
+DELETE http://localhost:3000/api/v1/user HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE2NTM5OTM0MzR9.FUcbrhLT3iXs62L4Ljt2a3Y5frbvGD2lN-loI2-QynM
+
+
+###-------------------------Timetable API---------------------------#
+
+### Post new timetable
+
+POST http://localhost:3000/api/v1/timetables HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE2NTM5OTM0MzR9.FUcbrhLT3iXs62L4Ljt2a3Y5frbvGD2lN-loI2-QynM
+Content-Type: application/json
+
+{
+    "description": "test_timetable"
+}
+
+### get All timetable
+
+GET http://localhost:3000/api/v1/timetables HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE2NTM5OTM0MzR9.FUcbrhLT3iXs62L4Ljt2a3Y5frbvGD2lN-loI2-QynM
+
+### get timetable by id
+
+GET http://localhost:3000/api/v1/timetables/1 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE2NTM5OTM0MzR9.FUcbrhLT3iXs62L4Ljt2a3Y5frbvGD2lN-loI2-QynM
+
+### patch timetable
+
+PATCH http://localhost:3000/api/v1/timetables/1 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE2NTM5OTM0MzR9.FUcbrhLT3iXs62L4Ljt2a3Y5frbvGD2lN-loI2-QynM
+Content-Type: application/json
+
+{
+    "description": "test_timetable"
+}
+
+### delete timetable
+DELETE http://localhost:3000/api/v1/timetables/1 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE2NTM5OTM0MzR9.FUcbrhLT3iXs62L4Ljt2a3Y5frbvGD2lN-loI2-QynM

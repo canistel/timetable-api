@@ -10,7 +10,8 @@ import {
     userDeleteValidator
 } from "./userValidator";
 import {
-    postNewTimetableValidator
+    postNewTimetableValidator,
+    patchTimetableValidator
 } from "./timetableValidator";
 
 export {
@@ -18,5 +19,6 @@ export {
     userSignInValidator,
     userPatchValidator,
     userDeleteValidator,
-    postNewTimetableValidator
+    postNewTimetableValidator,
+    patchTimetableValidator
 };

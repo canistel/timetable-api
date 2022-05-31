@@ -7,10 +7,14 @@ import { authenticator } from "../../middleware";
 import express from "express";
 import {
     getAllTimetablesController,
-    postNewTimetableController
+    postNewTimetableController,
+    getTimetableController,
+    patchTimetableController,
+    deleteTimetableController
 } from "../../controllers";
 import {
-    postNewTimetableValidator
+    postNewTimetableValidator,
+    patchTimetableValidator,
 } from "../../validators";
 
 // create user router
@@ -21,6 +25,15 @@ timeTableRouter.post("/", authenticator, postNewTimetableValidator, postNewTimet
 
 // get all timetables
 timeTableRouter.get("/", authenticator, getAllTimetablesController);
+
+// get timetable
+timeTableRouter.get("/:id", authenticator, getTimetableController);
+
+// patch timetable
+timeTableRouter.patch("/:id", authenticator, patchTimetableValidator, patchTimetableController);
+
+// delete timetable
+timeTableRouter.delete("/:id", authenticator, deleteTimetableController);
 
 // export user router
 export default timeTableRouter;

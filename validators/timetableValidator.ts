@@ -21,3 +21,19 @@ export async function postNewTimetableValidator(req: Request, res: Response, nex
         return res.status(400).json({ message: err });
     }
 }
+
+// patch timetable validation schema
+export async function patchTimetableValidator(req: Request, res: Response, next: NextFunction) {
+    // schema
+    const schema = Joi.object().keys({
+        description: Joi.string().min(1).max(500),
+    });
+
+    // validate
+    try {
+        await schema.validateAsync(req.body);
+        next();
+    } catch(err) {
+        return res.status(400).json({ message: err });
+    }
+}

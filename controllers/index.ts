@@ -13,6 +13,9 @@ import {
 import {
     getAllTimetablesController,
     postNewTimetableController,
+    getTimetableController,
+    patchTimetableController,
+    deleteTimetableController
 } from "./timetableController";
 
 export {
@@ -22,5 +25,8 @@ export {
     userDeleteController,
     userPatchController,
     getAllTimetablesController,
-    postNewTimetableController
+    postNewTimetableController,
+    getTimetableController,
+    patchTimetableController,
+    deleteTimetableController
 };
