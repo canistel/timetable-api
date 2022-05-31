@@ -3,8 +3,10 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
+import timeTableRouter from "./timetable";
 import userRouter from "./user";
 
 export {
+    timeTableRouter,
     userRouter
 };

@@ -3,7 +3,7 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import { userRouter } from "./routers/v1";
+import { timeTableRouter, userRouter } from "./routers/v1";
 import { appenvs } from "./utilities";
 import express from "express";
 
@@ -14,6 +14,7 @@ const app = express();
 app.use(express.json());
 
 // v1 router
+app.use('/api/v1/timetable', timeTableRouter);
 app.use('/api/v1/user', userRouter);
 
 // start app

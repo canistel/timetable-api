@@ -6,11 +6,21 @@
 import { authenticator } from "../../middleware";
 import express from "express";
 import {
-    getAllTimetablesController
+    getAllTimetablesController,
+    postNewTimetableController
 } from "../../controllers";
+import {
+    postNewTimetableValidator
+} from "../../validators";
 
-// user router
+// create user router
 const timeTableRouter = express.Router();
+
+// post timetable
+timeTableRouter.post("/", authenticator, postNewTimetableValidator, postNewTimetableController);
 
 // get all timetables
 timeTableRouter.get("/", authenticator, getAllTimetablesController);
+
+// export user router
+export default timeTableRouter;

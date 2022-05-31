@@ -12,9 +12,9 @@ A backend for timetable App this is only developed for mini project not for prod
 ~~~http
 user API
 
-GET     /user       # done
 POST    /signin     # done
 POST    /signup     # done
+GET     /user       # done
 PATCH   /user       # done
 DELETE  /user       # done
 
@@ -22,7 +22,7 @@ DELETE  /user       # done
 Time table API
 
 GET    /user/timetables     # done
-POST   /user/timetables
+POST   /user/timetables     # done
 GET    /user/timetables/id
 PATCH  /user/timetables/id
 DELETE /user/timetables/id

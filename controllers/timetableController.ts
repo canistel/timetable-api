@@ -33,3 +33,27 @@ export async function getAllTimetablesController(req: Request, res: Response) {
     // return
     return res.status(200).json(mappedRows);
 }
+
+// post timetable controller
+export async function postNewTimetableController(req: Request, res: Response) {
+    // get user id
+    const user_id = res.locals.user_id as number | undefined;
+
+    // description
+    const description = req.body.description as string;
+
+    // check valid
+    if (!user_id) { return res.status(500).json({ message: "Internal Server Error" }) }
+
+    // query
+    const query = `INSERT INTO ${tableNames.TIMETABLE_TABLE} (user_id, description) VALUES (?, ?)`;
+
+    // promise pool
+    const promisePool = mysqlPool.promise();
+
+    // post timetable
+    await promisePool.execute<ITimetable[]>(query, [user_id, description]);
+
+    // return
+    return res.status(200).json({ message: "Timetable added successfully" });
+}

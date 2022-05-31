@@ -9,10 +9,14 @@ import {
     userPatchValidator,
     userDeleteValidator
 } from "./userValidator";
+import {
+    postNewTimetableValidator
+} from "./timetableValidator";
 
 export {
     userSignUpValidator,
     userSignInValidator,
     userPatchValidator,
-    userDeleteValidator
+    userDeleteValidator,
+    postNewTimetableValidator
 };
