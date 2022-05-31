@@ -166,12 +166,9 @@ export async function userDeleteController(req: Request, res: Response) {
     // delete the user
     const deleteQuery = `DELETE FROM ${tableNames.USER_TABLE} WHERE id = ?`;
 
-    // promise pool
-    const deletePromisePool = mysqlPool.promise();
-
     // delete from DB
-    await deletePromisePool.execute<IUser[]>(deleteQuery, [user_id]);
+    await promisePool.execute<IUser[]>(deleteQuery, [user_id]);
 
     // return Status
-    res.status(200).json({ message: "User Deleted" });
+    res.status(200).json({ message: "Miss you if you are a gurl!" });
 }
