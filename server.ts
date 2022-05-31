@@ -13,6 +13,9 @@ const app = express();
 // use json middleware
 app.use(express.json());
 
+// default route
+app.get('/', (req, res) => res.status(200).json({ message: "Timetable API for Mini Project" }) );
+
 // v1 router
 app.use('/api/v1/timetables', timeTableRouter);
 app.use('/api/v1/user', userRouter);
