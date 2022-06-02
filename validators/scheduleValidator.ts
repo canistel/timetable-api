@@ -8,9 +8,12 @@ import Joi from "joi";
 
 // post timetable validation schema
 export async function postNewScheduleValidator(req: Request, res: Response, next: NextFunction) {
-    // schema
+    // validation schema
     const schema = Joi.object().keys({
         description: Joi.string().min(1).max(500).required(),
+        finished: Joi.boolean().required(),
+        start: Joi.date().required(),
+        end: Joi.date().required(),
     });
 
     // validate
@@ -24,9 +27,12 @@ export async function postNewScheduleValidator(req: Request, res: Response, next
 
 // patch timetable validation schema
 export async function patchScheduleValidator(req: Request, res: Response, next: NextFunction) {
-    // schema
+    // validation schema
     const schema = Joi.object().keys({
         description: Joi.string().min(1).max(500),
+        finished: Joi.boolean(),
+        start: Joi.date(),
+        end: Joi.date(),
     });
 
     // validate

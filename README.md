@@ -29,9 +29,9 @@ DELETE /user/timetables/id  # done
 
 Schedule API
 
-GET    /user/timetables/id/schedules
-POST   /user/timetables/id/schedules
-GET    /user/timetables/id/schedules/id
-PATCH  /user/timetables/id/schedules/id
-DELETE /user/timetables/id/schedules/id
+GET    /user/timetables/id/schedules        # done
+POST   /user/timetables/id/schedules        # done
+GET    /user/timetables/id/schedules/id     # done
+PATCH  /user/timetables/id/schedules/id     # done
+DELETE /user/timetables/id/schedules/id     # done
 ~~~

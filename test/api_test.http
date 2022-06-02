@@ -76,3 +76,5 @@ Content-Type: application/json
 ### delete timetable
 DELETE http://localhost:3000/api/v1/timetables/1 HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE2NTM5OTM0MzR9.FUcbrhLT3iXs62L4Ljt2a3Y5frbvGD2lN-loI2-QynM
+
+###-------------------------Schedule API---------------------------#

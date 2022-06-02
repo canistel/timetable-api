@@ -8,106 +8,155 @@ import { Request, Response } from "express"
 import { mysqlPool, tableNames } from "../constants"
 import { ISchedule } from "../interfaces"
 
-// POST NEW SCHEDULE
-export async function postNewScheduleController(req: Request, res: Response) {
-    const timetable_id = res.locals.timetable_id as number | undefined;
-    if (!timetable_id) { return res.status(500).json({ message: "Internal Server Error" }) }
-    
-    const start = res.locals.start as string;
-    const end = res.locals.end as string;
-
-    const description = req.body.description as string;
-
-    const finished = res.locals.finished as boolean;
-
-    const query = `INSERT INTO ${tableNames.SCHEDULE_TABLE} (timetable_id, start, end, description, finished) values(?, ?, ?, ?, ?)`
-
-    const promisePool = mysqlPool.promise();
-
-    await promisePool.execute<ISchedule[]>(query, [timetable_id, start, end, description, finished]);
-
-    return res.status(200).json({ message: "Schedule added successfully" });
-}
-
 // GET ALL SCHEDULE
 export async function getAllScheduleController(req: Request, res: Response) {
-    const timetable_id = res.locals.timetable_id as number | undefined;
-    if (!timetable_id) { return res.status(500).json({ message: "Internal Server Error" }) }
+    // get the timetable id
+    const timetable_id = +(req.params.timetable_id);
 
+    // sql query for schedules
     const query = `SELECT * FROM ${tableNames.SCHEDULE_TABLE} where timetable_id = ?`
 
+    // create promise pool
     const promisePool = mysqlPool.promise();
+
+    // query from database
     const [rows] = await promisePool.execute<ISchedule[]>(query, [timetable_id]);
 
+    // map rows to object
     const mappedRows = rows.map(row => {
-        return { id: row.ID, timetable_id: row.TIMETABLE_ID, start: row.START, end: row.END, description: row.DESCRIPTION, finished: row.FINISHED }
+        return { 
+            timetable_id: row.TIMETABLE_ID, 
+            id: row.ID, 
+            start: row.START, 
+            end: row.END, 
+            description: row.DESCRIPTION, 
+            finished: row.FINISHED 
+        }
     });
 
+    // return the result
     return res.status(200).json(mappedRows);
+}
+
+
+// POST NEW SCHEDULE
+export async function postNewScheduleController(req: Request, res: Response) {
+    // get the values from the body
+    const timetable_id = +(req.params.timetable_id);
+    const start = new Date(req.body.start);
+    const end = new Date(req.body.end);
+    const description = req.body.description;
+    const finished = req.body.finished === 'true';
+
+    // sql query string
+    const query = `INSERT INTO ${tableNames.SCHEDULE_TABLE} (timetable_id, start, end, description, finished) values(?, ?, ?, ?, ?)`
+
+    // create pool
+    const promisePool = mysqlPool.promise();
+
+    // query from database
+    await promisePool.execute<ISchedule[]>(query, [timetable_id, start, end, description, finished]);
+
+    // return the status
+    return res.status(200).json({ message: "Schedule added successfully" });
 }
 
 // GET SPECIFIC SCHEDULE
 export async function getScheduleController(req: Request, res: Response) {
-    const timetable_id = res.locals.timetable_id as number | undefined;
-    const id = +req.params.id;
+    // get the values from the url
+    const timetable_id = +(req.params.timetable_id);
+    const id = +(req.params.id);
 
+    // sql query string
     const query = `SELECT * FROM ${tableNames.SCHEDULE_TABLE} where timetable_id = ? and id = ?`
 
+    // create pool
     const promisePool = mysqlPool.promise();
 
+    // query from database
     const [rows] = await promisePool.execute<ISchedule[]>(query, [timetable_id, id]);
 
+    // if no rows found
     if (rows.length === 0) { return res.status(404).json({ message: "Schedule not found" }) }
 
+    // map rows to object
     const mappedRows = rows.map(row => {
-        return { id: row.ID, timetable_id: row.TIMETABLE_ID, start: row.START, end: row.END, description: row.DESCRIPTION, finished: row.FINISHED }
+        return { 
+            timetable_id: row.TIMETABLE_ID,
+            id: row.ID,  
+            start: row.START, 
+            end: row.END, 
+            description: row.DESCRIPTION, 
+            finished: row.FINISHED 
+        }
     });
 
+    // return result
     return res.status(200).json(mappedRows[0]);
 }
 
 // PATCH SPECIFIC SCHEDULE
 export async function patchScheduleController(req: Request, res: Response) {
-    const timetable_id = res.locals.timetable_id as number | undefined;
-    const id = +req.params.id;
-
-    const start = res.locals.start as string;
-    const end = res.locals.end as string;
-
-    const description = req.body.description as string;
-
-    const finished = res.locals.finished as boolean;
+    // get the values from the body
+    const timetable_id = +(req.params.timetable_id);
+    const id = +(req.params.id);
+    const start = req.body.start ?? new Date(req.params.start);
+    const end = req.body.end ?? new Date(req.params.end);
+    const description = req.body.description;
+    const finished = req.body.finished ?? req.body.finished === 'true';
     
+    // create promise pool
     const promisePool = mysqlPool.promise();
+
+    // sql query string
     const query = `SELECT * FROM ${tableNames.SCHEDULE_TABLE} where timetable_id = ? and id = ?`
 
+    // query from database
     const [rows] = await promisePool.execute<ISchedule[]>(query, [timetable_id, id]);
 
+    // if no rows found
+    if (rows.length === 0) { return res.status(404).json({ message: "Schedule not found" }) }
+
+    // create new string
     const newStart = start ?? rows[0].START;
     const newEnd = end ?? rows[0].END;
     const newDescription = description ?? rows[0].DESCRIPTION;
+    const newFinished = finished ?? rows[0].FINISHED;
 
-    if (!timetable_id) { return res.status(500).json({ message: "Internal Server Error" }) }
-    
-    const updateQuery = `UPDATE ${tableNames.SCHEDULE_TABLE} SET start = ?, end = ?, description = ? where timetable_id = ? and id = ?`
+    // sql query string
+    const updateQuery = `UPDATE ${tableNames.SCHEDULE_TABLE} SET start = ?, end = ?, description = ? finished = ? where timetable_id = ? and id = ?`
 
-    await promisePool.execute<ISchedule[]>(updateQuery, [newStart, newEnd, newDescription, timetable_id, id]);
+    // query from database
+    await promisePool.execute<ISchedule[]>(updateQuery, [newStart, newEnd, newDescription, newFinished, timetable_id, id]);
 
+    // return the status
     return res.status(200).json({ message: "Schedule updated successfully" });
 }
 
 // DELETE SPECIFIC SCHEDULE
 export async function deleteScheduleController(req: Request, res: Response) {
-    const timetable_id = res.locals.timetable_id as number | undefined;
-    const id = +req.params.id;
+    // get the values from the url
+    const timetable_id = +(req.params.timetable_id);
+    const id = +(req.params.id);
 
-    if (!timetable_id) { return res.status(500).json({ message: "Internal Server Error" }) }
-
-    const query = `DELETE FROM ${tableNames.SCHEDULE_TABLE} where timetable_id = ? and id = ?`;
-
+    // create new pool
     const promisePool = mysqlPool.promise();
 
-    await promisePool.execute<ISchedule[]>(query, [timetable_id, id]);
+    /// sql query string
+    const getQuery = `SELECT * FROM ${tableNames.SCHEDULE_TABLE} where timetable_id = ? and id = ?`
 
+    // query from database
+    const [rows] = await promisePool.execute<ISchedule[]>(getQuery, [timetable_id, id]);
+
+    // if no rows found
+    if (rows.length === 0) { return res.status(404).json({ message: "Schedule not found" }) }
+
+    // sql query string
+    const deleteQuery = `DELETE FROM ${tableNames.SCHEDULE_TABLE} where timetable_id = ? and id = ?`;
+
+    // query from database
+    await promisePool.execute<ISchedule[]>(deleteQuery, [timetable_id, id]);
+
+    // return the status
     return res.status(200).json({ message: "Schedule deleted successfully" });
 }

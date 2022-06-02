@@ -3,7 +3,7 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import { timeTableRouter, userRouter } from "./routers/v1";
+import { timeTableRouter, userRouter, scheduleRouter } from "./routers/v1";
 import { appenvs } from "./utilities";
 import express from "express";
 
@@ -19,6 +19,7 @@ app.get('/', (req, res) => res.status(200).json({ message: "Timetable API for Mi
 // v1 router
 app.use('/api/v1/timetables', timeTableRouter);
 app.use('/api/v1/user', userRouter);
+app.use('/api/v1/timetable/:id/schedule', scheduleRouter);
 
 // start app
 app.listen(appenvs.getAppPort(), () => {
