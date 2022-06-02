@@ -5,8 +5,10 @@
 
 import timeTableRouter from "./timetable";
 import userRouter from "./user";
+import scheduleRouter from "./schedule";
 
 export {
     timeTableRouter,
+    scheduleRouter,
     userRouter
 };

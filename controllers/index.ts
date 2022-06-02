@@ -18,6 +18,14 @@ import {
     deleteTimetableController
 } from "./timetableController";
 
+import {
+    getAllScheduleController, 
+    postNewScheduleController,
+    getScheduleController,
+    patchScheduleController,
+    deleteScheduleController
+} from "./scheduleController"
+
 export {
     userDetailsController,
     userSignUpController,
@@ -28,5 +36,10 @@ export {
     postNewTimetableController,
     getTimetableController,
     patchTimetableController,
-    deleteTimetableController
+    deleteTimetableController,
+    getAllScheduleController,
+    getScheduleController,
+    postNewScheduleController,
+    patchScheduleController,
+    deleteScheduleController
 };

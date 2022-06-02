@@ -13,6 +13,10 @@ import {
     postNewTimetableValidator,
     patchTimetableValidator
 } from "./timetableValidator";
+import {
+    postNewScheduleValidator,
+    patchScheduleValidator
+} from "./scheduleValidator"
 
 export {
     userSignUpValidator,
@@ -20,5 +24,7 @@ export {
     userPatchValidator,
     userDeleteValidator,
     postNewTimetableValidator,
-    patchTimetableValidator
+    patchTimetableValidator,
+    patchScheduleValidator,
+    postNewScheduleValidator
 };
