@@ -6,24 +6,36 @@
 
 import { Request, Response } from "express"
 import { mysqlPool, tableNames } from "../constants"
-import { ISchedule } from "../interfaces"
+import { ISchedule, IUser, ITimetable } from "../interfaces"
 
 // GET ALL SCHEDULE
 export async function getAllScheduleController(req: Request, res: Response) {
     // get the timetable id
     const timetable_id = +(req.params.timetable_id);
 
-    // sql query for schedules
-    const query = `SELECT * FROM ${tableNames.SCHEDULE_TABLE} where timetable_id = ?`
+    // user id
+    const user_id = +(res.locals.user_id);
 
     // create promise pool
     const promisePool = mysqlPool.promise();
 
+    // verify that user has access to this timetable
+    const vQuery = `SELECT * FROM ${tableNames.TIMETABLE_TABLE} WHERE user_id = ? AND timetable_id = ?`;
+    
+    // execute query
+    const [urows] = await promisePool.query<ITimetable[]>(vQuery, [user_id, timetable_id]);
+
+    // if no rows found
+    if (urows.length === 0) { return res.status(404).send("No timetable found"); return; }
+
+    // sql query for schedules
+    const sQuery = `SELECT * FROM ${tableNames.SCHEDULE_TABLE} where timetable_id = ?`
+
     // query from database
-    const [rows] = await promisePool.execute<ISchedule[]>(query, [timetable_id]);
+    const [srows] = await promisePool.execute<ISchedule[]>(sQuery, [timetable_id]);
 
     // map rows to object
-    const mappedRows = rows.map(row => {
+    const mappedRows = srows.map(row => {
         return { 
             timetable_id: row.TIMETABLE_ID, 
             id: row.ID, 
@@ -48,11 +60,23 @@ export async function postNewScheduleController(req: Request, res: Response) {
     const description = req.body.description;
     const finished = req.body.finished === 'true';
 
+    // user id
+    const user_id = +(res.locals.user_id);
+
+    // create promise pool
+    const promisePool = mysqlPool.promise();
+
+    // verify that user has access to this timetable
+    const vQuery = `SELECT * FROM ${tableNames.TIMETABLE_TABLE} WHERE user_id = ? AND timetable_id = ?`;
+    
+    // execute query
+    const [urows] = await promisePool.query<ITimetable[]>(vQuery, [user_id, timetable_id]);
+
+    // if no rows found
+    if (urows.length === 0) { return res.status(404).send("No timetable found"); return; }
+
     // sql query string
     const query = `INSERT INTO ${tableNames.SCHEDULE_TABLE} (timetable_id, start, end, description, finished) values(?, ?, ?, ?, ?)`
-
-    // create pool
-    const promisePool = mysqlPool.promise();
 
     // query from database
     await promisePool.execute<ISchedule[]>(query, [timetable_id, start, end, description, finished]);
@@ -67,11 +91,23 @@ export async function getScheduleController(req: Request, res: Response) {
     const timetable_id = +(req.params.timetable_id);
     const id = +(req.params.id);
 
+    // user id
+    const user_id = +(res.locals.user_id);
+
+    // create promise pool
+    const promisePool = mysqlPool.promise();
+
+    // verify that user has access to this timetable
+    const vQuery = `SELECT * FROM ${tableNames.TIMETABLE_TABLE} WHERE user_id = ? AND timetable_id = ?`;
+    
+    // execute query
+    const [urows] = await promisePool.query<ITimetable[]>(vQuery, [user_id, timetable_id]);
+
+    // if no rows found
+    if (urows.length === 0) { return res.status(404).send("No timetable found"); return; }
+
     // sql query string
     const query = `SELECT * FROM ${tableNames.SCHEDULE_TABLE} where timetable_id = ? and id = ?`
-
-    // create pool
-    const promisePool = mysqlPool.promise();
 
     // query from database
     const [rows] = await promisePool.execute<ISchedule[]>(query, [timetable_id, id]);
@@ -104,9 +140,21 @@ export async function patchScheduleController(req: Request, res: Response) {
     const end = req.body.end ?? new Date(req.params.end);
     const description = req.body.description;
     const finished = req.body.finished ?? req.body.finished === 'true';
-    
+
+    // user id
+    const user_id = +(res.locals.user_id);
+
     // create promise pool
     const promisePool = mysqlPool.promise();
+
+    // verify that user has access to this timetable
+    const vQuery = `SELECT * FROM ${tableNames.TIMETABLE_TABLE} WHERE user_id = ? AND timetable_id = ?`;
+    
+    // execute query
+    const [urows] = await promisePool.query<ITimetable[]>(vQuery, [user_id, timetable_id]);
+
+    // if no rows found
+    if (urows.length === 0) { return res.status(404).send("No timetable found"); return; }
 
     // sql query string
     const query = `SELECT * FROM ${tableNames.SCHEDULE_TABLE} where timetable_id = ? and id = ?`
@@ -139,8 +187,20 @@ export async function deleteScheduleController(req: Request, res: Response) {
     const timetable_id = +(req.params.timetable_id);
     const id = +(req.params.id);
 
-    // create new pool
+    // user id
+    const user_id = +(res.locals.user_id);
+
+    // create promise pool
     const promisePool = mysqlPool.promise();
+
+    // verify that user has access to this timetable
+    const vQuery = `SELECT * FROM ${tableNames.TIMETABLE_TABLE} WHERE user_id = ? AND timetable_id = ?`;
+    
+    // execute query
+    const [urows] = await promisePool.query<ITimetable[]>(vQuery, [user_id, timetable_id]);
+
+    // if no rows found
+    if (urows.length === 0) { return res.status(404).send("No timetable found"); return; }
 
     /// sql query string
     const getQuery = `SELECT * FROM ${tableNames.SCHEDULE_TABLE} where timetable_id = ? and id = ?`
