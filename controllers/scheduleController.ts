@@ -14,19 +14,22 @@ export async function getAllScheduleController(req: Request, res: Response) {
     const timetable_id = +(req.params.timetable_id);
 
     // user id
-    const user_id = +(res.locals.user_id);
+    const userId = +(res.locals.user_id);
+
+    // check valid
+    if (!userId) { return res.status(500).json({ message: "Internal Server Error" }) }
 
     // create promise pool
     const promisePool = mysqlPool.promise();
 
     // verify that user has access to this timetable
-    const vQuery = `SELECT * FROM ${tableNames.TIMETABLE_TABLE} WHERE user_id = ? AND timetable_id = ?`;
+    const vQuery = `SELECT * FROM ${tableNames.TIMETABLE_TABLE} WHERE user_id = ? AND id = ?`;
     
     // execute query
-    const [urows] = await promisePool.query<ITimetable[]>(vQuery, [user_id, timetable_id]);
+    const [urows] = await promisePool.query<ITimetable[]>(vQuery, [userId, timetable_id]);
 
     // if no rows found
-    if (urows.length === 0) { return res.status(404).send("No timetable found"); return; }
+    if (urows.length === 0) { return res.status(404).json({message: "Not Authorized"}); return; }
 
     // sql query for schedules
     const sQuery = `SELECT * FROM ${tableNames.SCHEDULE_TABLE} where timetable_id = ?`
@@ -42,7 +45,7 @@ export async function getAllScheduleController(req: Request, res: Response) {
             start: row.START, 
             end: row.END, 
             description: row.DESCRIPTION, 
-            finished: row.FINISHED 
+            finished: row.FINISHED === 1
         }
     });
 
@@ -61,19 +64,22 @@ export async function postNewScheduleController(req: Request, res: Response) {
     const finished = req.body.finished === 'true';
 
     // user id
-    const user_id = +(res.locals.user_id);
+    const userId = +(res.locals.user_id);
+
+    // check valid
+    if (!userId) { return res.status(500).json({ message: "Internal Server Error" }) }
 
     // create promise pool
     const promisePool = mysqlPool.promise();
 
     // verify that user has access to this timetable
-    const vQuery = `SELECT * FROM ${tableNames.TIMETABLE_TABLE} WHERE user_id = ? AND timetable_id = ?`;
+    const vQuery = `SELECT * FROM ${tableNames.TIMETABLE_TABLE} WHERE user_id = ? AND id = ?`;
     
     // execute query
-    const [urows] = await promisePool.query<ITimetable[]>(vQuery, [user_id, timetable_id]);
+    const [urows] = await promisePool.query<ITimetable[]>(vQuery, [userId, timetable_id]);
 
     // if no rows found
-    if (urows.length === 0) { return res.status(404).send("No timetable found"); return; }
+    if (urows.length === 0) { return res.status(404).json({message: "Not Authorized"}); }
 
     // sql query string
     const query = `INSERT INTO ${tableNames.SCHEDULE_TABLE} (timetable_id, start, end, description, finished) values(?, ?, ?, ?, ?)`
@@ -92,19 +98,22 @@ export async function getScheduleController(req: Request, res: Response) {
     const id = +(req.params.id);
 
     // user id
-    const user_id = +(res.locals.user_id);
+    const userId = +(res.locals.user_id);
+
+    // check valid
+    if (!userId) { return res.status(500).json({ message: "Internal Server Error" }) }
 
     // create promise pool
     const promisePool = mysqlPool.promise();
 
     // verify that user has access to this timetable
-    const vQuery = `SELECT * FROM ${tableNames.TIMETABLE_TABLE} WHERE user_id = ? AND timetable_id = ?`;
+    const vQuery = `SELECT * FROM ${tableNames.TIMETABLE_TABLE} WHERE user_id = ? AND id = ?`;
     
     // execute query
-    const [urows] = await promisePool.query<ITimetable[]>(vQuery, [user_id, timetable_id]);
+    const [urows] = await promisePool.query<ITimetable[]>(vQuery, [userId, timetable_id]);
 
     // if no rows found
-    if (urows.length === 0) { return res.status(404).send("No timetable found"); return; }
+    if (urows.length === 0) { return res.status(404).json({message: "Not Authorized"}); return; }
 
     // sql query string
     const query = `SELECT * FROM ${tableNames.SCHEDULE_TABLE} where timetable_id = ? and id = ?`
@@ -123,7 +132,7 @@ export async function getScheduleController(req: Request, res: Response) {
             start: row.START, 
             end: row.END, 
             description: row.DESCRIPTION, 
-            finished: row.FINISHED 
+            finished: row.FINISHED === 1
         }
     });
 
@@ -136,25 +145,28 @@ export async function patchScheduleController(req: Request, res: Response) {
     // get the values from the body
     const timetable_id = +(req.params.timetable_id);
     const id = +(req.params.id);
-    const start = req.body.start ?? new Date(req.params.start);
-    const end = req.body.end ?? new Date(req.params.end);
+    const start = req.body.start && new Date(req.body.start);
+    const end = req.body.end && new Date(req.body.end);
     const description = req.body.description;
-    const finished = req.body.finished ?? req.body.finished === 'true';
+    const finished = req.body.finished && req.body.finished === 'true';
 
     // user id
-    const user_id = +(res.locals.user_id);
+    const userId = +(res.locals.user_id);
+
+    // check valid
+    if (!userId) { return res.status(500).json({ message: "Internal Server Error" }) }
 
     // create promise pool
     const promisePool = mysqlPool.promise();
 
     // verify that user has access to this timetable
-    const vQuery = `SELECT * FROM ${tableNames.TIMETABLE_TABLE} WHERE user_id = ? AND timetable_id = ?`;
+    const vQuery = `SELECT * FROM ${tableNames.TIMETABLE_TABLE} WHERE user_id = ? AND id = ?`;
     
     // execute query
-    const [urows] = await promisePool.query<ITimetable[]>(vQuery, [user_id, timetable_id]);
+    const [urows] = await promisePool.query<ITimetable[]>(vQuery, [userId, timetable_id]);
 
     // if no rows found
-    if (urows.length === 0) { return res.status(404).send("No timetable found"); return; }
+    if (urows.length === 0) { return res.status(404).json({message: "Not Authorized"}); return; }
 
     // sql query string
     const query = `SELECT * FROM ${tableNames.SCHEDULE_TABLE} where timetable_id = ? and id = ?`
@@ -172,7 +184,7 @@ export async function patchScheduleController(req: Request, res: Response) {
     const newFinished = finished ?? rows[0].FINISHED;
 
     // sql query string
-    const updateQuery = `UPDATE ${tableNames.SCHEDULE_TABLE} SET start = ?, end = ?, description = ? finished = ? where timetable_id = ? and id = ?`
+    const updateQuery = `UPDATE ${tableNames.SCHEDULE_TABLE} SET start = ?, end = ?, description = ?, finished = ? where timetable_id = ? and id = ?`
 
     // query from database
     await promisePool.execute<ISchedule[]>(updateQuery, [newStart, newEnd, newDescription, newFinished, timetable_id, id]);
@@ -188,19 +200,22 @@ export async function deleteScheduleController(req: Request, res: Response) {
     const id = +(req.params.id);
 
     // user id
-    const user_id = +(res.locals.user_id);
+    const userId = +(res.locals.user_id);
+    
+    // check valid
+    if (!userId) { return res.status(500).json({ message: "Internal Server Error" }) }
 
     // create promise pool
     const promisePool = mysqlPool.promise();
 
     // verify that user has access to this timetable
-    const vQuery = `SELECT * FROM ${tableNames.TIMETABLE_TABLE} WHERE user_id = ? AND timetable_id = ?`;
+    const vQuery = `SELECT * FROM ${tableNames.TIMETABLE_TABLE} WHERE user_id = ? AND id = ?`;
     
     // execute query
-    const [urows] = await promisePool.query<ITimetable[]>(vQuery, [user_id, timetable_id]);
+    const [urows] = await promisePool.query<ITimetable[]>(vQuery, [userId, timetable_id]);
 
     // if no rows found
-    if (urows.length === 0) { return res.status(404).send("No timetable found"); return; }
+    if (urows.length === 0) { return res.status(404).json({message: "Not Authorized"}); return; }
 
     /// sql query string
     const getQuery = `SELECT * FROM ${tableNames.SCHEDULE_TABLE} where timetable_id = ? and id = ?`

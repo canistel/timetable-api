@@ -18,7 +18,10 @@ import {
 } from "../../validators";
 
 // create user router
-const timeTableRouter = express.Router();
+const timeTableRouter = express.Router({mergeParams: true});
+
+// patch timetable
+timeTableRouter.patch("/:id", authenticator, patchTimetableValidator, patchTimetableController);
 
 // post timetable
 timeTableRouter.post("/", authenticator, postNewTimetableValidator, postNewTimetableController);
@@ -28,9 +31,6 @@ timeTableRouter.get("/", authenticator, getAllTimetablesController);
 
 // get timetable
 timeTableRouter.get("/:id", authenticator, getTimetableController);
-
-// patch timetable
-timeTableRouter.patch("/:id", authenticator, patchTimetableValidator, patchTimetableController);
 
 // delete timetable
 timeTableRouter.delete("/:id", authenticator, deleteTimetableController);

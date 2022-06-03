@@ -20,10 +20,13 @@ import {
 } from "../../controllers";
 
 // create user router
-const userRouter = express.Router();
+const userRouter = express.Router({mergeParams: true});
 
 // delete user
 userRouter.delete('/', authenticator, userDeleteValidator, userDeleteController);
+
+// user patch
+userRouter.patch('/', authenticator, userPatchValidator, userPatchController);
 
 // signup api
 userRouter.post("/signup", userSignUpValidator, userSignUpController);
@@ -33,9 +36,6 @@ userRouter.post("/signin", userSignInValidator, userSignInController);
 
 // user details
 userRouter.get('/', authenticator, userDetailsController);
-
-// user patch
-userRouter.patch('/', authenticator, userPatchValidator, userPatchController);
 
 // export the user router
 export default userRouter;

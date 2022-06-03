@@ -12,5 +12,5 @@ export default interface ISchedule extends RowDataPacket {
     START: Date;
     END: Date;
     DESCRIPTION: string;
-    FINISHED: boolean;
+    FINISHED: number;
 }

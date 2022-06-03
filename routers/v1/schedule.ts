@@ -18,7 +18,10 @@ import {
 } from "../../validators";
 
 // create schedule router
-const scheduleRouter = express.Router();
+const scheduleRouter = express.Router({mergeParams: true});
+
+// patch schedule by id
+scheduleRouter.patch("/:id(\\d+)", authenticator, patchScheduleValidator, patchScheduleController);
 
 // create the new schedule
 scheduleRouter.post("/", authenticator, postNewScheduleValidator, postNewScheduleController);
@@ -27,13 +30,10 @@ scheduleRouter.post("/", authenticator, postNewScheduleValidator, postNewSchedul
 scheduleRouter.get("/", authenticator, getAllScheduleController);
 
 // get schedule by id
-scheduleRouter.get("/:id(^\\d+$)", authenticator, getScheduleController);
-
-// patch schedule by id
-scheduleRouter.patch("/:id(^\\d+$)", authenticator, patchScheduleValidator, patchScheduleController);
+scheduleRouter.get("/:id(\\d+)", authenticator, getScheduleController);
 
 // delete schedule by id
-scheduleRouter.delete("/:id(^\\d+$)", authenticator, deleteScheduleController);
+scheduleRouter.delete("/:id(\\d+)", authenticator, deleteScheduleController);
 
 // export router
 export default scheduleRouter;

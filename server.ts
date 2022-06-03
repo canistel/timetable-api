@@ -13,13 +13,13 @@ const app = express();
 // use json middleware
 app.use(express.json());
 
-// default route
+// index route
 app.get('/', (req, res) => res.status(200).json({ message: "Timetable API for Mini Project" }));
 
 // v1 router
-app.use('/api/v1/timetables', timeTableRouter);
 app.use('/api/v1/user', userRouter);
-app.use('/api/v1/timetable/:id/schedule', scheduleRouter);
+app.use('/api/v1/user/timetables', timeTableRouter);
+app.use('/api/v1/user/timetables/:timetable_id(\\d+)/schedules', scheduleRouter);
 
 // start app
 app.listen(appenvs.getAppPort(), () => {

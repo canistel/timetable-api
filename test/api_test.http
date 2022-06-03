@@ -45,7 +45,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpY
 
 ### Post new timetable
 
-POST http://localhost:3000/api/v1/timetables HTTP/1.1
+POST http://localhost:3000/api/v1/user/timetables HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE2NTM5OTM0MzR9.FUcbrhLT3iXs62L4Ljt2a3Y5frbvGD2lN-loI2-QynM
 Content-Type: application/json
 
@@ -55,17 +55,17 @@ Content-Type: application/json
 
 ### get All timetable
 
-GET http://localhost:3000/api/v1/timetables HTTP/1.1
+GET http://localhost:3000/api/v1/user/timetables HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE2NTM5OTM0MzR9.FUcbrhLT3iXs62L4Ljt2a3Y5frbvGD2lN-loI2-QynM
 
 ### get timetable by id
 
-GET http://localhost:3000/api/v1/timetables/1 HTTP/1.1
+GET http://localhost:3000/api/v1/user/timetables/2 HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE2NTM5OTM0MzR9.FUcbrhLT3iXs62L4Ljt2a3Y5frbvGD2lN-loI2-QynM
 
 ### patch timetable
 
-PATCH http://localhost:3000/api/v1/timetables/1 HTTP/1.1
+PATCH http://localhost:3000/api/v1/user/timetables/2 HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE2NTM5OTM0MzR9.FUcbrhLT3iXs62L4Ljt2a3Y5frbvGD2lN-loI2-QynM
 Content-Type: application/json
 
@@ -74,7 +74,48 @@ Content-Type: application/json
 }
 
 ### delete timetable
-DELETE http://localhost:3000/api/v1/timetables/1 HTTP/1.1
+DELETE http://localhost:3000/api/v1/user/timetables/2 HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE2NTM5OTM0MzR9.FUcbrhLT3iXs62L4Ljt2a3Y5frbvGD2lN-loI2-QynM
 
 ###-------------------------Schedule API---------------------------#
+
+### POST new schedule
+
+POST http://localhost:3000/api/v1/user/timetables/2/schedules HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE2NTM5OTM0MzR9.FUcbrhLT3iXs62L4Ljt2a3Y5frbvGD2lN-loI2-QynM
+Content-Type: application/json
+
+{
+    "description": "test_schedule",
+    "start": "2020-01-01T00:00:00.000Z",
+    "end": "2020-01-01T00:00:00.000Z",
+    "finished": false
+}
+
+### get All schedule
+
+GET http://localhost:3000/api/v1/user/timetables/2/schedules HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE2NTM5OTM0MzR9.FUcbrhLT3iXs62L4Ljt2a3Y5frbvGD2lN-loI2-QynM
+
+### get schedule by id
+
+GET http://localhost:3000/api/v1/user/timetables/2/schedules/2 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE2NTM5OTM0MzR9.FUcbrhLT3iXs62L4Ljt2a3Y5frbvGD2lN-loI2-QynM
+
+### patch schedule
+
+PATCH http://localhost:3000/api/v1/user/timetables/2/schedules/2 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE2NTM5OTM0MzR9.FUcbrhLT3iXs62L4Ljt2a3Y5frbvGD2lN-loI2-QynM
+Content-Type: application/json
+
+{
+    "description": "test_schedule",
+    "start": "2020-01-01T00:00:00.000Z",
+    "end": "2020-01-01T00:00:00.000Z",
+    "finished": false
+}
+
+### delete schedule
+
+DELETE http://localhost:3000/api/v1/user/timetables/2/schedules/2 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE2NTM5OTM0MzR9.FUcbrhLT3iXs62L4Ljt2a3Y5frbvGD2lN-loI2-QynM
