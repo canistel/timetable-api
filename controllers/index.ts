@@ -5,7 +5,7 @@
 
 import { 
     userDetailsController,
-    userSignUpController, 
+    userPostController, 
     userSignInController,
     userPatchController, 
     userDeleteController 
@@ -28,7 +28,7 @@ import {
 
 export {
     userDetailsController,
-    userSignUpController,
+    userPostController,
     userSignInController, 
     userDeleteController,
     userPatchController,

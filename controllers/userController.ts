@@ -35,7 +35,7 @@ export async function userDetailsController(req: Request, res: Response) {
 }
 
 // controller for user sign up
-export async function userSignUpController(req: Request, res: Response) {
+export async function userPostController(req: Request, res: Response) {
     // get the request body
     const { username, password } = req.body;
 
@@ -82,7 +82,7 @@ export async function userSignInController(req: Request, res: Response) {
     const isPasswordValid = await bcrypt.compare(password, hashedPassword);
 
     // if password not valid
-    if(!isPasswordValid) { res.status(401).json({message: "Unauthorized"}) }
+    if(!isPasswordValid) { return res.status(401).json({message: "Unauthorized"}) }
 
     // jwt payload
     const payload :IJwtpayload = { user_id: rows[0].ID };
@@ -91,7 +91,7 @@ export async function userSignInController(req: Request, res: Response) {
     const token = jsonwebtoken.sign(payload, appenvs.getSecretKey());
 
     // send the token
-    res.status(200).json({ token });
+    res.status(200).json({ username: rows[0].USERNAME, id: rows[0].ID, token: token });
 }
 
 // controller for user patch

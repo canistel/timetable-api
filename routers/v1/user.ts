@@ -6,14 +6,14 @@
 import { authenticator } from "../../middleware";
 import express from "express";
 import {
-    userSignUpValidator,
+    userPostValidator,
     userSignInValidator,
     userPatchValidator,
     userDeleteValidator
 } from "../../validators";
 import {
     userDetailsController,
-    userSignUpController,
+    userPostController,
     userSignInController,
     userPatchController,
     userDeleteController
@@ -29,7 +29,7 @@ userRouter.delete('/', authenticator, userDeleteValidator, userDeleteController)
 userRouter.patch('/', authenticator, userPatchValidator, userPatchController);
 
 // signup api
-userRouter.post("/signup", userSignUpValidator, userSignUpController);
+userRouter.post("/", userPostValidator, userPostController);
 
 // signin api
 userRouter.post("/signin", userSignInValidator, userSignInController);

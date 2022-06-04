@@ -5,10 +5,14 @@
 
 import { timeTableRouter, userRouter, scheduleRouter } from "./routers/v1";
 import { appenvs } from "./utilities";
+import cors from "cors";
 import express from "express";
 
 // create app
 const app = express();
+
+// use cors middle ware
+app.use(cors());
 
 // use json middleware
 app.use(express.json());

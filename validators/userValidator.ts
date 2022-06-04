@@ -7,7 +7,7 @@ import { NextFunction, Request, Response } from "express";
 import Joi from "joi";
 
 // validate the sign up request
-export async function userSignUpValidator(req: Request, res: Response, next: NextFunction) {
+export async function userPostValidator(req: Request, res: Response, next: NextFunction) {
     // validation schema
     const schema = Joi.object({
         username: Joi.string().required(),

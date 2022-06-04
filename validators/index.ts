@@ -4,7 +4,7 @@
 // https://opensource.org/licenses/MIT
 
 import { 
-    userSignUpValidator, 
+    userPostValidator, 
     userSignInValidator,
     userPatchValidator,
     userDeleteValidator
@@ -19,7 +19,7 @@ import {
 } from "./scheduleValidator"
 
 export {
-    userSignUpValidator,
+    userPostValidator,
     userSignInValidator,
     userPatchValidator,
     userDeleteValidator,
